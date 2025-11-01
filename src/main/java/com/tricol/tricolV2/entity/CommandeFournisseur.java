@@ -39,9 +39,9 @@ public class CommandeFournisseur {
     @NotNull(message = "Le fournisseur est obligatoire")
     private Fournisseur fournisseur;
 
-    @OneToMany(mappedBy = "commandeFournisseur", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LigneCommandeFournisseur> lignes;
 
-    @OneToMany(mappedBy = "commandeFournisseur", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "commande", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MouvementStock> mouvementsStock;
 }
