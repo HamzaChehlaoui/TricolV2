@@ -7,6 +7,8 @@ import jakarta.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +52,7 @@ public class FournisseurController {
         return  ResponseEntity.ok(fournisseurs);
     }
 
-    @GetMapping("/search/{societe}")
+    @GetMapping("/searchBySociete/{societe}")
     public ResponseEntity<List<FournisseurDTO>>getFournisseursBysociete(@PathVariable("societe") String societe){
         List<FournisseurDTO>fournisseurDTOList = fournisseurService.searchBySociete(societe);
 
@@ -59,6 +61,23 @@ public class FournisseurController {
         }
 
         return ResponseEntity.ok(fournisseurDTOList);
+    }
+
+    @GetMapping("/searchByVille/{ville}")
+    public ResponseEntity<List<FournisseurDTO>>getFourinsseursByVille(@PathVariable("ville") String ville){
+        List<FournisseurDTO> fournisseurDTOList = fournisseurService.searchByVille(ville);
+
+        if(fournisseurDTOList.isEmpty()){
+            throw new NotFoundException("Aucun fournisseur trouvé pour la ville : " + ville);
+        }
+        return ResponseEntity.ok(fournisseurDTOList);
+    }
+
+    @GetMapping("/searchByIce/{ice}")
+    public ResponseEntity<FournisseurDTO>getFournisseurByIce(@PathVariable("ice") String ice){
+        FournisseurDTO fournisseurDTO = fournisseurService.searchByIce(ice)
+                .orElseThrow(()->new NotFoundException("Aucun fournisseur trouvé pour la ICE : " + ice));
+        return ResponseEntity.ok(fournisseurDTO);
     }
 
     @DeleteMapping("/{id}")
