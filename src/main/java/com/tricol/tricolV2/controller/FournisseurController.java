@@ -44,7 +44,21 @@ public class FournisseurController {
     @GetMapping
     public ResponseEntity<List<FournisseurDTO>>getAll(){
         List<FournisseurDTO> fournisseurs = fournisseurService.getAllFournisseurs();
+        if(fournisseurs.isEmpty()){
+            throw new NotFoundException("Aucun fournisseur trouvé");
+        }
         return  ResponseEntity.ok(fournisseurs);
+    }
+
+    @GetMapping("/search/{societe}")
+    public ResponseEntity<List<FournisseurDTO>>getFournisseursBysociete(@PathVariable("societe") String societe){
+        List<FournisseurDTO>fournisseurDTOList = fournisseurService.searchBySociete(societe);
+
+        if(fournisseurDTOList.isEmpty()) {
+            throw new NotFoundException("Aucun fournisseur trouvé pour la société : " + societe);
+        }
+
+        return ResponseEntity.ok(fournisseurDTOList);
     }
 
     @DeleteMapping("/{id}")
@@ -53,4 +67,6 @@ public class FournisseurController {
         String message = "Fournisseur supprimé avec succès";
         return ResponseEntity.ok().body(Map.of("message" , message));
     }
+
+
 }
