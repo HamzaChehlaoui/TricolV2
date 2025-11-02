@@ -5,10 +5,14 @@ import com.tricol.tricolV2.exception.NotFoundException;
 import com.tricol.tricolV2.service.FournisseurServiceImpl;
 import jakarta.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,6 +55,26 @@ public class FournisseurController {
         }
         return  ResponseEntity.ok(fournisseurs);
     }
+
+    @GetMapping("/paged")
+    public ResponseEntity<Map<String, Object>> getFournisseurs(@RequestParam(defaultValue = "0") int page,
+                                                               @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<FournisseurDTO> fournisseurPage = fournisseurService.getFournisseurs(pageable);
+
+        if (fournisseurPage.isEmpty()) {
+            throw new NotFoundException("Aucun fournisseur trouvé");
+        }
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("data", fournisseurPage.getContent());
+        response.put("currentPage", fournisseurPage.getNumber());
+        response.put("totalItems", fournisseurPage.getTotalElements());
+        response.put("totalPages", fournisseurPage.getTotalPages());
+
+        return ResponseEntity.ok(response);
+    }
+
 
     @GetMapping("/searchBySociete/{societe}")
     public ResponseEntity<List<FournisseurDTO>>getFournisseursBysociete(@PathVariable("societe") String societe){
