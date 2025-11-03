@@ -53,6 +53,13 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         entity.setId(null);
         entity.setFournisseur(fournisseur);
 
+        // Ensure bidirectional association is set before persisting
+        if (entity.getLignes() != null) {
+            for (LigneCommandeFournisseur ligne : entity.getLignes()) {
+                ligne.setCommande(entity);
+            }
+        }
+
         bindProduitsAndCompute(entity);
 
         CommandeFournisseur saved = commandeRepository.save(entity);

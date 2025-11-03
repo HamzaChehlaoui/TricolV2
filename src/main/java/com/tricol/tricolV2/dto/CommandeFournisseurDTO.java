@@ -2,19 +2,16 @@ package com.tricol.tricolV2.dto;
 
 import com.tricol.tricolV2.entity.enums.StatutCommande;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class CommandeFournisseurDTO {
 
     private Long id;

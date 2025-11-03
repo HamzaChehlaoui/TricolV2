@@ -2,9 +2,7 @@ package com.tricol.tricolV2.entity;
 
 import com.tricol.tricolV2.entity.enums.StatutCommande;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.PastOrPresent;
+
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -12,7 +10,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
