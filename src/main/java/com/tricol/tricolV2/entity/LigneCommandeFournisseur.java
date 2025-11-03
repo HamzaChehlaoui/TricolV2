@@ -18,25 +18,17 @@ public class LigneCommandeFournisseur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull(message = "La quantité est obligatoire")
-    @DecimalMin(value = "0.0", inclusive = false, message = "La quantité doit être supérieure à zéro")
     private BigDecimal quantite;
 
-    @NotNull(message = "Le prix unitaire est obligatoire")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Le prix unitaire doit être supérieur à zéro")
     private BigDecimal prixUnitaire;
 
-    @NotNull(message = "Le montant de la ligne est obligatoire")
-    @DecimalMin(value = "0.0", inclusive = false, message = "Le montant de la ligne doit être supérieur à zéro")
     private BigDecimal montantLigne;
 
     @ManyToOne
     @JoinColumn(name = "produit_id", nullable = false)
-    @NotNull(message = "Le produit est obligatoire")
     private Produit produit;
 
     @ManyToOne
     @JoinColumn(name = "commande_id", nullable = false)
-    @NotNull(message = "La commande fournisseur est obligatoire")
     private CommandeFournisseur commande;
 }
