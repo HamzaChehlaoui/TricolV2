@@ -151,7 +151,8 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
                 ligne.setProduit(produit);
 
                 BigDecimal qte = ligne.getQuantite() == null ? BigDecimal.ZERO : ligne.getQuantite();
-                BigDecimal pu = ligne.getPrixUnitaire() == null ? BigDecimal.ZERO : ligne.getPrixUnitaire();
+                BigDecimal pu = produit.getPrixUnitaire() == null ? BigDecimal.ZERO : produit.getPrixUnitaire();
+                ligne.setPrixUnitaire(pu);
                 BigDecimal montantLigne = pu.multiply(qte).setScale(2, RoundingMode.HALF_UP);
                 ligne.setMontantLigne(montantLigne);
                 total = total.add(montantLigne);
