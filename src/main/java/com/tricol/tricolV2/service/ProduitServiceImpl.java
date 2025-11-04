@@ -43,7 +43,6 @@ public class ProduitServiceImpl implements ProduitService {
         existing.setCategorie(produitDTO.getCategorie());
         existing.setPrixUnitaire(produitDTO.getPrixUnitaire());
         existing.setStockActuel(produitDTO.getStockActuel());
-        existing.setCoutUnitaireMoyen(produitDTO.getCoutUnitaireMoyen());
 
         Produit updated = produitRepository.save(existing);
         return produitMapper.toDTO(updated);

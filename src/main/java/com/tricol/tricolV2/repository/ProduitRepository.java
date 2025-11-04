@@ -15,4 +15,6 @@ public interface ProduitRepository extends JpaRepository<Produit, Long> {
     Page<Produit> findByPrixUnitaireBetween(BigDecimal min, BigDecimal max, Pageable pageable);
     List<Produit> findByStockActuelLessThan(BigDecimal stockMin);
     List<Produit> findByStockActuelGreaterThan(BigDecimal stockMax);
+
+    List<Produit> findByNomIgnoreCaseAndStockActuelGreaterThanOrderByStockActuelDesc(String nom, BigDecimal minStock);
 }

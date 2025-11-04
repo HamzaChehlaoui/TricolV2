@@ -37,7 +37,5 @@ public class ProduitDTO {
     @DecimalMin(value = "0.0", inclusive = true, message = "Le stock actuel ne peut pas être négatif")
     private BigDecimal stockActuel;
 
-    @NotNull(message = "Le coût unitaire moyen est obligatoire")
-    @DecimalMin(value = "0.0", inclusive = true, message = "Le coût unitaire moyen ne peut pas être négatif")
-    private BigDecimal coutUnitaireMoyen;
+    
 }

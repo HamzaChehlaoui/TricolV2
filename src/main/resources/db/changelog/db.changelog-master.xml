@@ -11,5 +11,6 @@
     <include file="db/changelog/003-create-commande-fournisseur-table.xml"/>
     <include file="db/changelog/004-create-mouvement-stock-table.xml"/>
     <include file="db/changelog/005-create-ligne-commande-fournisseur-table.xml"/>
+    <include file="db/changelog/006-drop-produit-cout-unitaire-moyen.xml"/>
 
 </databaseChangeLog>

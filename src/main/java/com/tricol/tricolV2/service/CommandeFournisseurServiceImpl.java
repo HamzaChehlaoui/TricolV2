@@ -15,6 +15,7 @@ import com.tricol.tricolV2.repository.ProduitRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -31,17 +32,20 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     private final ProduitRepository produitRepository;
     private final CommandeFournisseurMapper commandeMapper;
     private final LigneCommandeMapper ligneMapper;
+    private final MouvementStockService mouvementStockService;
 
     public CommandeFournisseurServiceImpl(CommandeFournisseurRepository commandeRepository,
                                           FournisseurRepository fournisseurRepository,
                                           ProduitRepository produitRepository,
                                           CommandeFournisseurMapper commandeMapper,
-                                          LigneCommandeMapper ligneMapper) {
+                                          LigneCommandeMapper ligneMapper,
+                                          MouvementStockService mouvementStockService) {
         this.commandeRepository = commandeRepository;
         this.fournisseurRepository = fournisseurRepository;
         this.produitRepository = produitRepository;
         this.commandeMapper = commandeMapper;
         this.ligneMapper = ligneMapper;
+        this.mouvementStockService = mouvementStockService;
     }
 
     @Override
@@ -117,9 +121,19 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     }
 
     @Override
+    @Transactional
     public CommandeFournisseurDTO updateStatut(Long id, StatutCommande statut) {
         CommandeFournisseur existing = commandeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Commande non trouvée avec l'id : " + id));
+        boolean wasLivree = existing.getStatut() == StatutCommande.LIVREE;
+        // If moving to LIVREE, ensure stock movements succeed BEFORE persisting status change
+        if (!wasLivree && statut == StatutCommande.LIVREE) {
+            if (!mouvementStockService.movementsExistForCommande(existing.getId())) {
+                // Will throw BusinessException if stock insufficient; transaction will rollback
+                mouvementStockService.createEntriesForCommande(existing);
+            }
+        }
+
         existing.setStatut(statut);
         CommandeFournisseur updated = commandeRepository.save(existing);
         return commandeMapper.toDTO(updated);
@@ -161,5 +175,3 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
         commande.setMontantTotal(total.setScale(2, RoundingMode.HALF_UP));
     }
 }
-
-
