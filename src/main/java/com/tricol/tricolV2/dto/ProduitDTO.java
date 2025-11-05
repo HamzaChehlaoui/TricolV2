@@ -37,5 +37,5 @@ public class ProduitDTO {
     @DecimalMin(value = "0.0", inclusive = true, message = "Le stock actuel ne peut pas être négatif")
     private BigDecimal stockActuel;
 
-    
+    private BigDecimal coutUnitaireMoyen;
 }

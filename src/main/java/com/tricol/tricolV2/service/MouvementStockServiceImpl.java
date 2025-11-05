@@ -81,14 +81,12 @@ public class MouvementStockServiceImpl implements MouvementStockService {
 
                 BigDecimal nouveauStock = dispo.subtract(aSortir);
                 candidat.setStockActuel(nouveauStock.max(BigDecimal.ZERO));
-                // CUMP inchangé pour les sorties
                 produitRepository.save(candidat);
 
                 restante = restante.subtract(aSortir);
             }
 
             if (restante.compareTo(BigDecimal.ZERO) > 0) {
-                // Défense en profondeur: ceci ne devrait pas arriver après la pré-vérification
                 throw new BusinessException("La quantité demandée n'est pas disponible en stock pour le produit: " + produit.getNom());
             }
         }

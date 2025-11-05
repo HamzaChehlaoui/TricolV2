@@ -28,6 +28,8 @@ public class Produit {
 
     private BigDecimal stockActuel;
 
+    private BigDecimal coutUnitaireMoyen;
+
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MouvementStock> mouvements;
 
