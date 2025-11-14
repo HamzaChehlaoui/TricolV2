@@ -167,4 +167,7 @@ public class ProduitServiceImpl implements ProduitService {
     private BigDecimal defaultZero(BigDecimal value) {
         return value == null ? BigDecimal.ZERO : value;
     }
+    public Long cout(){
+       return produitRepository.findAll().stream().count();
+    }
 }
