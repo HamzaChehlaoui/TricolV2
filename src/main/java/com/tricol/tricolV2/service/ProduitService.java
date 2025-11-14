@@ -21,4 +21,5 @@ public interface ProduitService {
     Page<ProduitDTO> searchByPrixBetween(BigDecimal min, BigDecimal max, Pageable pageable);
     List<ProduitDTO> searchByStockLessThan(BigDecimal stockMin);
     List<ProduitDTO> searchByStockGreaterThan(BigDecimal stockMax);
+    Long cout();
 }
